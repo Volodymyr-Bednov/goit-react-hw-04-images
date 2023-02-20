@@ -2,7 +2,7 @@
   "name": "react-homework-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://volodymyr-bednov.github.io/goit-react-hw-04-image/",
+  "homepage": "https://volodymyr-bednov.github.io/goit-react-hw-04-images/",
   "dependencies": {
     "@coreui/icons": "^3.0.0",
     "@coreui/icons-react": "^2.1.0",
