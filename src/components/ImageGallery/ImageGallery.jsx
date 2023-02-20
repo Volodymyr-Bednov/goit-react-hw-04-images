@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 // import ScrollIntoViewIfNeeded from 'react-scroll-into-view-if-needed';
 import { getImageList } from 'components/api';
 import { Button } from 'components/Button/Button';
@@ -9,39 +9,29 @@ import css from './ImageGallery.module.css';
 import { Loader } from 'components/Loader/Loader';
 
 export const ImageGallery = ({searchWord}) =>{
-   //const [searchWord, setSearchWord] = useState('');
   const [listData, setListData] = useState([]);
   const [page, setPage] = useState(1);
   const [per_page, setPer_page] = useState(12);
+  // eslint-disable-next-line no-unused-vars
   const [totalHits, setTotalHits] = useState(null);
-  const [totalPages, setTotalPages] = useState(null);
   const [isVisibleLoadMo, setIsVisibleLoadMo] = useState(false);
   const [isVisibleLoader, setIsVisibleLoader] = useState(false);
   const [isVisibleModal, setIsVisibleModal] = useState(false);  
   const [modalImage, setModalImage] = useState(''); 
   const [activeScroll, setActiveScroll] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const prevValeuSearchWord = usePreviousValue(searchWord);
-  const prevValeuPage = usePreviousValue(page);
-
-
-  function usePreviousValue(value) {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  }
 
 useEffect(()=>{
     if (searchWord) {
           getDataImages(searchWord, page, per_page);
     }
-},[searchWord, page, per_page])
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [searchWord, page, per_page])
 
 useEffect(()=>{
+  //console.log("Reset ");
   resetState();
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
 },[searchWord])
 
 
@@ -49,20 +39,20 @@ useEffect(()=>{
     setIsVisibleLoader(true);
     setActiveScroll(false);
     try {
-      console.log(searchWord, page, per_page);
       const result = await getImageList(searchWord, page, per_page);
       const totalPages = Math.floor(result.data.totalHits / per_page);
-      console.log(totalPages);
       setListData([...listData, ...result.data.hits]);
       setTotalHits(result.data.totalHits);
-      setTotalPages(totalPages);
+  
       setIsVisibleLoadMo(totalPages <= page ? false : true);
-      console.log((totalPages <= page ? false : true), 'totalPage', totalPages, "---  page", page);
+
     } catch (error) {
       setErrorMessage(error)
+      console.log(errorMessage);
     }
     setIsVisibleLoader(false);
-    setActiveScroll(true);
+     setActiveScroll(true);
+
   };
 
   const resetState = () => {
@@ -71,6 +61,8 @@ useEffect(()=>{
     setPage(1);
     setTotalHits(null);
     setErrorMessage('');
+    setPer_page(12);
+    setIsVisibleLoader(false);
   };
 
   const loadMore = () => {
