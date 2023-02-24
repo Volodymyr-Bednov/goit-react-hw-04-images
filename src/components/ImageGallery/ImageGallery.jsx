@@ -23,13 +23,14 @@ export const ImageGallery = ({searchWord}) =>{
 
 useEffect(()=>{
     if (searchWord) {
+      
           getDataImages(searchWord, page, per_page);
     }
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [searchWord, page, per_page])
 
 useEffect(()=>{
-  //console.log("Reset ");
+  console.log("Reset ");
   resetState();
 // eslint-disable-next-line react-hooks/exhaustive-deps
 },[searchWord])
@@ -62,7 +63,8 @@ useEffect(()=>{
     setTotalHits(null);
     setErrorMessage('');
     setPer_page(12);
-    setIsVisibleLoader(false);
+    // setIsVisibleLoader(false);
+    // setActiveScroll(false);
   };
 
   const loadMore = () => {
